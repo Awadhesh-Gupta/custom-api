@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmployeeController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Employee API</a> &gt; <a href="index.source.html" class="el_package">com.example.employeeapi.controller</a> &gt; <span class="el_source">EmployeeController.java</span></div><h1>EmployeeController.java</h1><pre class="source lang-java linenums">package com.example.employeeapi.controller;
+
+import com.example.employeeapi.model.Employee;
+import com.example.employeeapi.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/api/employees&quot;)
+<span class="fc" id="L13">public class EmployeeController {</span>
+
+    @Autowired
+    private EmployeeRepository repository;
+
+    // GET: All employees
+    @GetMapping
+    public List&lt;Employee&gt; getAllEmployees() {
+<span class="nc" id="L21">        return repository.findAll();</span>
+    }
+
+    // GET: Employee by ID
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Employee&gt; getEmployeeById(@PathVariable Long id) {
+<span class="fc" id="L27">        return repository.findById(id)</span>
+<span class="fc" id="L28">                .map(ResponseEntity::ok)</span>
+<span class="fc" id="L29">                .orElse(ResponseEntity.notFound().build());</span>
+    }
+
+    // POST: Create new employee
+    @PostMapping
+    public ResponseEntity&lt;Employee&gt; createEmployee(@RequestBody Employee employee) {
+<span class="nc" id="L35">        Employee saved = repository.save(employee);</span>
+<span class="nc" id="L36">        return ResponseEntity.ok(saved); // Or use ResponseEntity.created() for URI if desired</span>
+    }
+
+    // PUT: Update existing employee
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Employee&gt; updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
+<span class="nc" id="L42">        return repository.findById(id)</span>
+<span class="nc" id="L43">                .map(existingEmployee -&gt; {</span>
+<span class="nc" id="L44">                    existingEmployee.setName(updatedEmployee.getName());</span>
+<span class="nc" id="L45">                    existingEmployee.setRole(updatedEmployee.getRole());</span>
+<span class="nc" id="L46">                    existingEmployee.setSalary(updatedEmployee.getSalary());</span>
+<span class="nc" id="L47">                    return ResponseEntity.ok(repository.save(existingEmployee));</span>
+                })
+<span class="nc" id="L49">                .orElse(ResponseEntity.notFound().build());</span>
+    }
+
+    // DELETE: Employee by ID
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deleteEmployee(@PathVariable Long id) {
+<span class="nc" id="L55">        return repository.findById(id)</span>
+<span class="nc" id="L56">                .map(emp -&gt; {</span>
+<span class="nc" id="L57">                    repository.deleteById(id);</span>
+<span class="nc" id="L58">                    return ResponseEntity.noContent().&lt;Void&gt;build();</span>
+                })
+<span class="nc" id="L60">                .orElse(ResponseEntity.notFound().build());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

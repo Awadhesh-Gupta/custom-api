@@ -1,6 +1,9 @@
 package com.example.employeeapi.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Employee {
@@ -8,11 +11,23 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-    private String department;
-    private double salary;
+    private String role;
+    private Double salary;
 
+    // Default constructor (required by JPA)
+    public Employee() {
+    }
+
+    // Parameterized constructor
+    public Employee(Long id, String name, String role, Double salary) {
+        this.id = id;
+        this.name = name;
+        this.role = role;
+        this.salary = salary;
+    }
+
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -29,19 +44,19 @@ public class Employee {
         this.name = name;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getRole() {
+        return role;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public double getSalary() {
+    public Double getSalary() {
         return salary;
     }
 
-    public void setSalary(double salary) {
+    public void setSalary(Double salary) {
         this.salary = salary;
     }
 }

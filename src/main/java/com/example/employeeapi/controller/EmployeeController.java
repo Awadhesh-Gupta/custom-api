@@ -40,11 +40,11 @@ public class EmployeeController {
     @PutMapping("/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         return repository.findById(id)
-                .map(emp -> {
-                    emp.setName(updatedEmployee.getName());
-                    emp.setDepartment(updatedEmployee.getDepartment());
-                    emp.setSalary(updatedEmployee.getSalary());
-                    return ResponseEntity.ok(repository.save(emp));
+                .map(existingEmployee -> {
+                    existingEmployee.setName(updatedEmployee.getName());
+                    existingEmployee.setRole(updatedEmployee.getRole());
+                    existingEmployee.setSalary(updatedEmployee.getSalary());
+                    return ResponseEntity.ok(repository.save(existingEmployee));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -55,7 +55,7 @@ public class EmployeeController {
         return repository.findById(id)
                 .map(emp -> {
                     repository.deleteById(id);
-                    return ResponseEntity.noContent().<Void>build(); // ✅ Properly typed
+                    return ResponseEntity.noContent().<Void>build();
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
