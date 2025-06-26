@@ -205,7 +205,19 @@ Screenshots of Postman test results to validate API functionality.
 ![DELETE Request Example](Test-Result-Screenshot/delete-request.png)
 
 
+## Test Results
 
+### Keploy AI API Testing Dashboard
+
+Below is the screenshot of the Keploy test results validating the API functionality:
+
+![Keploy Testing Report](Test-Result-Screenshot/Keploy_Test_Report.png)
+
+---
+
+### CI/CD Configuration
+
+The CI/CD pipeline configuration file can be found here: [CI/CD Configuration](https://github.com/Awadhesh-Gupta/custom-api/blob/CustomAPI/.github/workflows/keploy-ci.yml)
 
 ## 📄 License
 
